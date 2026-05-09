@@ -5,7 +5,7 @@ import json
 
 app = Flask(__name__)
 
-GROQ_API_KEY = "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"
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 client = Groq(api_key=GROQ_API_KEY)
 
 SYSTEM_PROMPT = """You are J.A.R.V.I.S. (Just A Rather Very Intelligent System), 
