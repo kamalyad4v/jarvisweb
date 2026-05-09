@@ -820,11 +820,28 @@ async function sendMessage() {
   addTyping();
 
   try {
+   try {
     const response = await fetch('/chat', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({message: text, session_id: SESSION_ID})
     });
+
+    const typing = document.getElementById('typing');
+    if (typing) typing.remove();
+
+    const data = await response.json();
+    const contentEl = addMessage('jarvis', '');
+    contentEl.innerHTML = formatMessage(data.reply);
+    msgCount++;
+    document.getElementById('msg-count').textContent = msgCount;
+    document.getElementById('messages').scrollTop = 99999;
+
+  } catch (e) {
+    const typing = document.getElementById('typing');
+    if (typing) typing.remove();
+    addMessage('jarvis', 'System error. Please check API key configuration.');
+  }
 
     const typing = document.getElementById('typing');
     if (typing) typing.remove();
